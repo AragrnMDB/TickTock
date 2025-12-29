@@ -8,7 +8,7 @@ unsigned long redOnTime      = 500;             // Amount of time the red led is
 unsigned long redOffTime     = 500;             // Amount of time the red led is off in a cycle
 uint8_t redLedState          = LOW;             // Red led state
 uint8_t redLedSend           = redLedState;     // Red led state to send
-uint8_t lastRedLedSend       = redLedSend;      // Last red led state sent
+uint8_t lastRedLedSend       = !redLedSend;     // Last red led state sent
 mdb_blink redBlinker(redLed, redOnTime, redOffTime, redLedState);
 
 uint8_t grnLed               = 12;              // Define the green led pin
@@ -16,7 +16,7 @@ unsigned long grnOnTime      = 500;             // Amount of time the green led 
 unsigned long grnOffTime     = 500;             // Amount of time the green led is off in a cycle
 uint8_t grnLedState          = HIGH;            // Green led state
 uint8_t grnLedSend           = grnLedState;     // Green led state to send
-uint8_t lastGrnLedSend       = grnLedSend;      // Last green led state sent
+uint8_t lastGrnLedSend       = !grnLedSend;     // Last green led state sent
 mdb_blink grnBlinker(grnLed, grnOnTime, grnOffTime, grnLedState);
 
 uint8_t commLed              = 13;              // Define the comm led pin (pinmode set in flash)
