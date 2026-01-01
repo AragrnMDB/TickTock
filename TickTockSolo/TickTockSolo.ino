@@ -24,6 +24,8 @@ mdb_debounce debouncedOff(offButton, INPUT_PULLUP, 20); // Debounced input for o
 void setup() {                                  // Setup function runs once
   redBlinker.startBlink();                      // Start the red blinker
   grnBlinker.startBlink();                      // Start the green blinker
+  debouncedOn.begin();
+  debouncedOff.begin();
 }
 
 void loop() {

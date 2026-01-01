@@ -33,6 +33,8 @@ void setup() {                                  // Setup function runs once
   Wire.begin();                                 // Join i2c bus (address optional for master)
   redBlinker.startBlink();                      // Start the red blinker
   grnBlinker.startBlink();                      // Start the green blinker
+  debouncedOn.begin();
+  debouncedOff.begin();
 }
 
 void loop() {

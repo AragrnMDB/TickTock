@@ -29,6 +29,8 @@ void setup() {                                  // Setup function runs once
   Wire.onReceive(receiveEvent);                 // register event handler
   digitalWrite(redLed, LOW);                    // Initialize the red led to off
   digitalWrite(grnLed, LOW);                    // Initialize the green led to off
+  debouncedOpposite.begin();
+  debouncedFlash.begin();
 }
 
 void loop() {                                   // continuous loop
