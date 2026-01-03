@@ -36,7 +36,8 @@ This program monitors I2C address 4. When it receives a transmission, the first 
 second byte is the state of the second led.  
 
 There are two buttons that are monitored. If the first button is clicked, the leds swap (if led 1 is on at the sender, led 2
-is on at the receover). If the second button is clicked, the leds flash (on for 20ms) instead of remaining on.  
+is on at the receiver). If the second button is clicked, the leds flash (on for 20ms) instead of remaining on.  These buttons act
+as toggles (swap on the leading edge, flash on the trailing edge of the buttons).
 
 The on-board led (pin 13) is flashed for 20ms at the start of receiving processing.  
 
