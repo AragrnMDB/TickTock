@@ -35,22 +35,8 @@ void setup() {                                  // Setup function runs once
 
 void loop() {                                   // continuous loop
   commFlash.processFlash();                     // Process an ongoing comm flash
-  if (debouncedOpposite.inputState() and ! lastOpposite) { // If the opposite button is pressed and was not last time
-    oppositeFlag = !oppositeFlag;               // Flip the opposite flag
-    lastOpposite = true;                        // Remember that the opposite button was pressed
-  } else {                                      // Otherwise
-    if (!debouncedOpposite.inputState()) {      // If the opposite button is not pressed
-      lastOpposite = false;                     // Clear the last opposite flag
-    }
-  }
-  if (debouncedFlash.inputState() and ! lastFlash) { // If the flash button is pressed and was not last time
-    flashFlag = !flashFlag;                     // Flip the flash flag
-    lastFlash = true;                           // Remember that the flash button was pressed
-  } else {                                      // Otherwise
-      if (!debouncedFlash.inputState()) {       // If the flash button is not pressed
-        lastFlash = false;                      // Clear the flash flag
-      }
-  }
+  oppositeFlag = debouncedOpposite.toggleInput(RISING);
+  flashFlag = debouncedFlash.toggleInput(FALLING);
   if (flashFlag) {                              // If we're flashing
     redFlash.processFlash();                    // Process an ongoing red flash
     grnFlash.processFlash();                    // Process an ongoing green flash

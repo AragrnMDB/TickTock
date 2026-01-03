@@ -41,12 +41,12 @@ void loop() {
   commFlash.processFlash();                     // Process an ongoing comm flash
   redLedState = redBlinker.processBlink();      // Process the blinking of the red led
   grnLedState = grnBlinker.processBlink();      // Process the blinking of the green led
-  if (debouncedOn.inputState()) {               // If the ON button is pressed
+  if (debouncedOn.momentaryInput()) {           // If the ON button is pressed
     redLedSend = HIGH;                          // Send the red led as on
     grnLedSend = HIGH;                          // Send the green led as on
     redBlinker.holdBlink();                     // Reset the red timer to keep it from elapsing
     grnBlinker.holdBlink();                     // Reset the red timer to keep it from elapsing
-  } else if (debouncedOff.inputState()) {       // Else If the OFF button is pressed
+  } else if (debouncedOff.momentaryInput()) {   // Else If the OFF button is pressed
     redLedSend = LOW;                           // Send the red led as off
     grnLedSend = LOW;                           // Send the green led as off
     redBlinker.holdBlink();                     // Reset the red timer to keep it from elapsing
