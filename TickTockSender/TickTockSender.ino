@@ -1,6 +1,5 @@
-#include <mdb_debounce.h>                       // Include my debounce library
-#include <mdb_flash.h>                          // Include my flash library
-#include <mdb_blink.h>                          // Include my blink library
+#include <mdb_digitalIn.h>                      // Include my digitalIn library
+#include <mdb_digitalOut.h>                     // Include my digitalOut library
 #include <Wire.h>                               // Include the I2C library
 
 uint8_t redLed               = 11;              // Define the red led pin
@@ -9,7 +8,7 @@ unsigned long redOffTime     = 500;             // Amount of time the red led is
 uint8_t redLedState          = LOW;             // Red led state
 uint8_t redLedSend           = redLedState;     // Red led state to send
 uint8_t lastRedLedSend       = !redLedSend;     // Last red led state sent
-mdb_blink redBlinker(redLed, redOnTime, redOffTime, redLedState);
+mdb_digitalOut redBlinker(redLed, redOnTime, redOffTime, redLedState);
 
 uint8_t grnLed               = 12;              // Define the green led pin
 unsigned long grnOnTime      = 500;             // Amount of time the green led is on in a cycle
@@ -17,36 +16,39 @@ unsigned long grnOffTime     = 500;             // Amount of time the green led 
 uint8_t grnLedState          = HIGH;            // Green led state
 uint8_t grnLedSend           = grnLedState;     // Green led state to send
 uint8_t lastGrnLedSend       = !grnLedSend;     // Last green led state sent
-mdb_blink grnBlinker(grnLed, grnOnTime, grnOffTime, grnLedState);
+mdb_digitalOut grnBlinker(grnLed, grnOnTime, grnOffTime, grnLedState);
 
 uint8_t commLed              = 13;              // Define the comm led pin (pinmode set in flash)
 unsigned long commFlashTime  = 25;              // Length of time for a comm flash
-mdb_flash commFlash(commLed, commFlashTime);    // Flasher for comm events
+mdb_digitalOut commFlash(commLed, commFlashTime); // Flasher for comm events
 
 uint8_t onButton             = 7;               // Define the on button pin (pinmode set in debounce)
-mdb_debounce debouncedOn(onButton,  INPUT_PULLUP, 20); // Debounced input for onButton
+mdb_digitalIn debouncedOn(onButton);            // Debounced input for onButton (using defaults)
 
 uint8_t offButton            = 6;               // Define the off button pin (pinmode set in debounce)
-mdb_debounce debouncedOff(offButton, INPUT_PULLUP, 20); // Debounced input for offButton
+mdb_digitalIn debouncedOff(offButton);          // Debounced input for offButton (using defaults)
 
 void setup() {                                  // Setup function runs once
   Wire.begin();                                 // Join i2c bus (address optional for master)
-  redBlinker.startBlink();                      // Start the red blinker
-  grnBlinker.startBlink();                      // Start the green blinker
+  redBlinker.begin();
+  grnBlinker.begin();
+  commFlash.begin();
   debouncedOn.begin();
   debouncedOff.begin();
+  redBlinker.startBlink();                      // Start the red blinker
+  grnBlinker.startBlink();                      // Start the green blinker
 }
 
 void loop() {
   commFlash.processFlash();                     // Process an ongoing comm flash
   redLedState = redBlinker.processBlink();      // Process the blinking of the red led
   grnLedState = grnBlinker.processBlink();      // Process the blinking of the green led
-  if (debouncedOn.momentaryInput()) {           // If the ON button is pressed
+  if (debouncedOn.momentary()) {                // If the ON button is pressed
     redLedSend = HIGH;                          // Send the red led as on
     grnLedSend = HIGH;                          // Send the green led as on
     redBlinker.holdBlink();                     // Reset the red timer to keep it from elapsing
     grnBlinker.holdBlink();                     // Reset the red timer to keep it from elapsing
-  } else if (debouncedOff.momentaryInput()) {   // Else If the OFF button is pressed
+  } else if (debouncedOff.momentary     ()) {   // Else If the OFF button is pressed
     redLedSend = LOW;                           // Send the red led as off
     grnLedSend = LOW;                           // Send the green led as off
     redBlinker.holdBlink();                     // Reset the red timer to keep it from elapsing

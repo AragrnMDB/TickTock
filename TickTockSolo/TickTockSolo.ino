@@ -1,4 +1,4 @@
-#include <mdb_debounce.h>                   // Include my debounce library
+#include <mdb_digitalIn.h>                      // Include my digitalIn library
 #include <mdb_blink.h>                          // Include my blink library
 
 uint8_t redLed               = 11;              // Define the red led pin
@@ -16,10 +16,10 @@ uint8_t grnLedSend           = grnLedState;     // Green led state to send
 mdb_blink grnBlinker(grnLed, grnOnTime, grnOffTime, grnLedState);
 
 uint8_t onButton             = 7;               // Define the on button pin (pinmode set in debounce)
-mdb_debounce debouncedOn(onButton,  INPUT_PULLUP, 20); // Debounced input for onButton
+mdb_digitalIn debouncedOn(onButton,  INPUT_PULLUP, 20, RISINGEDGE); // Debounced input for onButton
 
 uint8_t offButton            = 6;               // Define the off button pin (pinmode set in debounce)
-mdb_debounce debouncedOff(offButton, INPUT_PULLUP, 20); // Debounced input for offButton
+mdb_digitalIn debouncedOff(offButton, INPUT_PULLUP, 20, RISINGEDGE); // Debounced input for offButton
 
 void setup() {                                  // Setup function runs once
   redBlinker.startBlink();                      // Start the red blinker
@@ -31,12 +31,12 @@ void setup() {                                  // Setup function runs once
 void loop() {
   redLedState = redBlinker.processBlink();      // Process the blinking of the red led
   grnLedState = grnBlinker.processBlink();      // Process the blinking of the green led
-  if (debouncedOn.debouncedInput()) {           // If the ON button is pressed
+  if (debouncedOn.momentary()) {                // If the ON button is pressed
     redLedSend = HIGH;                          // Send the red led as on
     grnLedSend = HIGH;                          // Send the green led as on
     redBlinker.holdBlink();                     // Reset the red timer to keep it from elapsing
     grnBlinker.holdBlink();                     // Reset the red timer to keep it from elapsing
-  } else if (debouncedOff.debouncedInput()) {   // Else If the OFF button is pressed
+  } else if (debouncedOff.momentary()) {        // Else If the OFF button is pressed
     redLedSend = LOW;                           // Send the red led as off
     grnLedSend = LOW;                           // Send the green led as off
     redBlinker.holdBlink();                     // Reset the red timer to keep it from elapsing
