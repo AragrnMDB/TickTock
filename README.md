@@ -11,8 +11,8 @@ If the other button is pressed and held, the tick tocking stops with both leds o
 No delay() statements are used.  
 
 Uses:  
-- [mdb_blink](https://github.com/AragrnMDB/mdb_blink.git "mdb_blink") 
-- [mdb_debounce](https://github.com/AragrnMDB/mdb_debounce.git "mdb_debounce")
+- [mdb_digitalOut](https://github.com/AragrnMDB/mdb_digitalOut.git "mdb_digitalOut") 
+- [mdb_digitalIn](https://github.com/AragrnMDB/mdb_digitalIn.git "mdb_digitalIn")
 - These libraries also use: [mdb_timer](https://github.com/AragrnMDB/mdb_timer.git "mdb_timer") 
 
 ## TickTockSender
@@ -23,9 +23,8 @@ two leds is sent over I2C to address 4.
 The on-board led (pin 13) is flashed for 20ms at the start of transmission.  
 
 Uses:  
-- [mdb_blink](https://github.com/AragrnMDB/mdb_blink.git "mdb_blink") 
-- [mdb_debounce](https://github.com/AragrnMDB/mdb_debounce.git "mdb_debounce") 
-- [mdb_flash](https://github.com/AragrnMDB/mdb_flash.git "mdb_flash") 
+- [mdb_digitalOut](https://github.com/AragrnMDB/mdb_digitalOut.git "mdb_digitalOut") 
+- [mdb_digitalIn](https://github.com/AragrnMDB/mdb_digitalIn.git "mdb_digitalIn")
 - These libraries also use: [mdb_timer](https://github.com/AragrnMDB/mdb_timer.git "mdb_timer") 
 
 No delay() statements are used.  
@@ -36,14 +35,14 @@ This program monitors I2C address 4. When it receives a transmission, the first 
 second byte is the state of the second led.  
 
 There are two buttons that are monitored. If the first button is clicked, the leds swap (if led 1 is on at the sender, led 2
-is on at the receiver). If the second button is clicked, the leds flash (on for 20ms) instead of remaining on.  These buttons act
+is on at the receiver). If the second button is clicked, the leds flash (on for 50ms) instead of remaining on.  These buttons act
 as toggles (swap on the leading edge, flash on the trailing edge of the buttons).
 
 The on-board led (pin 13) is flashed for 20ms at the start of receiving processing.  
 
 Uses:  
-- [mdb_debounce](https://github.com/AragrnMDB/mdb_debounce.git "mdb_debounce") 
-- [mdb_flash](https://github.com/AragrnMDB/mdb_flash.git "mdb_flash") 
+- [mdb_digitalOut](https://github.com/AragrnMDB/mdb_digitalOut.git "mdb_digitalOut") 
+- [mdb_digitalIn](https://github.com/AragrnMDB/mdb_digitalIn.git "mdb_digitalIn")
 - These libraries also use: [mdb_timer](https://github.com/AragrnMDB/mdb_timer.git "mdb_timer") 
 
 No delay() statements are used.  

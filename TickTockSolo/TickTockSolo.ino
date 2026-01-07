@@ -1,19 +1,19 @@
 #include <mdb_digitalIn.h>                      // Include my digitalIn library
-#include <mdb_blink.h>                          // Include my blink library
+#include <mdb_digitalOut.h>                     // Include my digitalOut library
 
 uint8_t redLed               = 11;              // Define the red led pin
 unsigned long redOnTime      = 500;             // Amount of time the red led is on in a cycle
 unsigned long redOffTime     = 500;             // Amount of time the red led is off in a cycle
 uint8_t redLedState          = LOW;             // Red led state
 uint8_t redLedSend           = redLedState;     // Red led state to send
-mdb_blink redBlinker(redLed, redOnTime, redOffTime, redLedState);
+mdb_digitalOut redBlinker(redLed, redOnTime, redOffTime, redLedState); // Red blinker
 
 uint8_t grnLed               = 12;              // Define the green led pin
 unsigned long grnOnTime      = 500;             // Amount of time the green led is on in a cycle
 unsigned long grnOffTime     = 500;             // Amount of time the green led is off in a cycle
 uint8_t grnLedState          = HIGH;            // Green led state
 uint8_t grnLedSend           = grnLedState;     // Green led state to send
-mdb_blink grnBlinker(grnLed, grnOnTime, grnOffTime, grnLedState);
+mdb_digitalOut grnBlinker(grnLed, grnOnTime, grnOffTime, grnLedState); // GreenBlinker
 
 uint8_t onButton             = 7;               // Define the on button pin (pinmode set in debounce)
 mdb_digitalIn debouncedOn(onButton,  INPUT_PULLUP, 20, RISINGEDGE); // Debounced input for onButton
@@ -22,10 +22,12 @@ uint8_t offButton            = 6;               // Define the off button pin (pi
 mdb_digitalIn debouncedOff(offButton, INPUT_PULLUP, 20, RISINGEDGE); // Debounced input for offButton
 
 void setup() {                                  // Setup function runs once
+  redBlinker.begin();                           // Begin the red blinking led
+  grnBlinker.begin();                           // Begin the green blinking led
+  debouncedOn.begin();                          // Begin the on push button
+  debouncedOff.begin();                         // Begin the off push button
   redBlinker.startBlink();                      // Start the red blinker
   grnBlinker.startBlink();                      // Start the green blinker
-  debouncedOn.begin();
-  debouncedOff.begin();
 }
 
 void loop() {

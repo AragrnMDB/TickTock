@@ -2,44 +2,44 @@
 #include <mdb_digitalOut.h>                     // Include my digitalOut library
 #include <Wire.h>                               // Include the I2C library
 
-uint8_t redLed               = 11;              // Define the red led pin
+uint8_t redLed               = 11;              // Define the red led pin (pinmode set in digitalOut)
 unsigned long redOnTime      = 500;             // Amount of time the red led is on in a cycle
 unsigned long redOffTime     = 500;             // Amount of time the red led is off in a cycle
 uint8_t redLedState          = LOW;             // Red led state
 uint8_t redLedSend           = redLedState;     // Red led state to send
 uint8_t lastRedLedSend       = !redLedSend;     // Last red led state sent
-mdb_digitalOut redBlinker(redLed, redOnTime, redOffTime, redLedState);
+mdb_digitalOut redBlinker(redLed, redOnTime, redOffTime, redLedState); // Red led blinker
 
-uint8_t grnLed               = 12;              // Define the green led pin
+uint8_t grnLed               = 12;              // Define the green led pin (pinmode set in digitalOut)
 unsigned long grnOnTime      = 500;             // Amount of time the green led is on in a cycle
 unsigned long grnOffTime     = 500;             // Amount of time the green led is off in a cycle
 uint8_t grnLedState          = HIGH;            // Green led state
 uint8_t grnLedSend           = grnLedState;     // Green led state to send
 uint8_t lastGrnLedSend       = !grnLedSend;     // Last green led state sent
-mdb_digitalOut grnBlinker(grnLed, grnOnTime, grnOffTime, grnLedState);
+mdb_digitalOut grnBlinker(grnLed, grnOnTime, grnOffTime, grnLedState); // Green led blinker
 
-uint8_t commLed              = 13;              // Define the comm led pin (pinmode set in flash)
+uint8_t commLed              = 13;              // Define the comm led pin (pinmode set in digitalOut)
 unsigned long commFlashTime  = 25;              // Length of time for a comm flash
 mdb_digitalOut commFlash(commLed, commFlashTime); // Flasher for comm events
 
-uint8_t onButton             = 7;               // Define the on button pin (pinmode set in debounce)
+uint8_t onButton             = 7;               // Define the on button pin (pinmode set in digitalIn)
 mdb_digitalIn debouncedOn(onButton);            // Debounced input for onButton (using defaults)
 
-uint8_t offButton            = 6;               // Define the off button pin (pinmode set in debounce)
+uint8_t offButton            = 6;               // Define the off button pin (pinmode set in digitalIn)
 mdb_digitalIn debouncedOff(offButton);          // Debounced input for offButton (using defaults)
 
 void setup() {                                  // Setup function runs once
   Wire.begin();                                 // Join i2c bus (address optional for master)
-  redBlinker.begin();
-  grnBlinker.begin();
-  commFlash.begin();
-  debouncedOn.begin();
-  debouncedOff.begin();
+  redBlinker.begin();                           // Begin the red blinking led
+  grnBlinker.begin();                           // Begin the green blinking led
+  commFlash.begin();                            // Begin the on-board flashing led
+  debouncedOn.begin();                          // Begin the on push button
+  debouncedOff.begin();                         // Begin the off push button
   redBlinker.startBlink();                      // Start the red blinker
   grnBlinker.startBlink();                      // Start the green blinker
 }
 
-void loop() {
+void loop() {                                   // Continuous loop
   commFlash.processFlash();                     // Process an ongoing comm flash
   redLedState = redBlinker.processBlink();      // Process the blinking of the red led
   grnLedState = grnBlinker.processBlink();      // Process the blinking of the green led
